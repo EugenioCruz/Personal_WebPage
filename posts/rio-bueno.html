@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eugenio Cruz">
+    <title>Lo que Río Bueno me enseñó - Eugenio Cruz</title>
+    <link rel="icon" href="../Orange_Bird.png" type="image/png">
+    <style>
+        :root {
+            --color-bg: #1a1a1a;
+            --color-text: #fff8f0;
+            --color-text-muted: #c4a77d;
+            --color-accent: #ff6b35;
+            --color-accent-light: #ffa366;
+            --color-hover: #ffcc99;
+            --font-family: Arial, sans-serif;
+            --max-width: 650px;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: var(--color-text);
+        }
+
+        body {
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-lg);
+            line-height: 1.8;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-lg);
+            transition: color 0.2s;
+        }
+
+        .back:hover {
+            color: var(--color-hover);
+        }
+
+        .back svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: var(--space-sm);
+            color: var(--color-accent);
+        }
+
+        .date {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .intro {
+            font-style: italic;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-lg);
+            padding: var(--space-md);
+            border-left: 3px solid var(--color-accent);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .post-content {
+            margin-top: var(--space-lg);
+        }
+
+        .section {
+            margin-bottom: var(--space-lg);
+        }
+
+        .section-title {
+            color: var(--color-accent);
+            font-size: 1.3rem;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: "•";
+            font-size: 1.5rem;
+        }
+
+        .section p {
+            margin-bottom: var(--space-sm);
+            font-size: 1.05rem;
+        }
+
+        .highlight {
+            color: var(--color-accent-light);
+            font-weight: bold;
+        }
+
+        .signature {
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
+            text-align: center;
+        }
+
+        .signature img {
+            width: 120px;
+            height: auto;
+            margin-bottom: var(--space-sm);
+        }
+
+        .lang-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-family: var(--font-family);
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        #theme-toggle {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            font-family: var(--font-family);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #theme-toggle:hover {
+            background: var(--color-accent);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-selector">
+        <button id="theme-toggle" title="Cambiar tema">🌙</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+
+    <a href="../blog.html" class="back">
+        <svg viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        Volver
+    </a>
+
+    <h1>Lo que Río Bueno me enseñó</h1>
+    <p class="date">Febrero 2026</p>
+
+    <div class="intro">
+        Esto no es una guía o un ensayo, si no que una colección de cosas que la naturaleza me fue enseñando. Esto es tierra y emoción; una mezcla de datos reales y sentimientos igual de reales. Así que lee esto como quien encuentra una piedra y decide o no guardarla en su bolsillo.
+    </div>
+
+    <div class="post-content">
+        <div class="section">
+            <h2 class="section-title">El bosque me enseñó a estar</h2>
+            <p>Hay algo en el bosque que desarma, tal vez es el silencio lleno de vida o como todo sucede sin ser visto.</p>
+            <p>Me enseñó que <span class="highlight">no hace falta producir o ser eficiente todo el tiempo</span>, ni tener un propósito claro.</p>
+            <p>Me enseñó que <span class="highlight">la espera es un gesto poderoso y generoso</span>.</p>
+            <p>Que los ciclos no se apuran, la transformación lleva su tiempo y que hay belleza en la descomposición; en lo que ya no es.</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">La tierra me enseñó a confiar</h2>
+            <p>La tierra me enseñó que puedo confiar en mis pies, y que cuando piso hojas secas recuerdo lo que algún día fue verde.</p>
+            <p>Que <span class="highlight">las raíces no se ven, pero son quienes sostienen</span>.</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Los hongos me enseñaron a conectar</h2>
+            <p>Los hongos me enseñaron que <span class="highlight">lo importante no es brillar, si no que conectar</span>.</p>
+            <p>Y aprendí a estar; sin exigencia ni línea recta.</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">El viento me enseñó a soltar</h2>
+            <p>El viento me enseñó que no puedo controlar todo, que hay cosas que simplemente pasan.</p>
+            <p>Que <span class="highlight">el movimiento puede ser suave</span>, que no hace falta empujar para avanzar.</p>
+            <p>Me enseñó a bailar sin música, a correr sin rumbo y aceptar que no hay que saberlo todo.</p>
+            <p>Que hay cosas que se van y no por eso dejan de ser importantes.</p>
+            <p>Me mostró que <span class="highlight">lo invisible también transforma</span>, que hay caricias que no se ven.</p>
+        </div>
+    </div>
+
+    <div class="signature">
+        <p style="color: var(--color-text-muted); font-style: italic;">Eugenio Cruz Ossa</p>
+    </div>
+
+    <script src="../theme.js"></script>
+    <script src="../i18n.js"></script>
+</body>
+</html>

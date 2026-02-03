@@ -339,6 +339,79 @@
         .emails a:hover {
             color: var(--color-hover);
         }
+
+        /* CV Dropdown */
+        .cv-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cv-dropdown-content {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-bg);
+            border: 1px solid var(--color-accent);
+            border-radius: 12px;
+            padding: 8px 0;
+            min-width: 100px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .cv-dropdown-content::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0 8px;
+            border-style: solid;
+            border-color: var(--color-accent) transparent transparent transparent;
+        }
+
+        .cv-dropdown-content a {
+            display: block;
+            padding: 8px 16px;
+            color: var(--color-text);
+            font-size: 0.85rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .cv-dropdown-content a:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--color-accent);
+        }
+
+        .cv-dropdown.active .cv-dropdown-content {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .cv-dropdown > span {
+            cursor: pointer;
+        }
+
+        .cv-dropdown > span svg {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            fill: var(--color-text);
+            transition: fill 0.2s ease, transform 0.2s ease;
+        }
+
+        .cv-dropdown:hover > span svg,
+        .cv-dropdown.active > span svg {
+            fill: var(--color-accent);
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 
@@ -351,7 +424,7 @@
     </div>
 
     <main class="landing">
-        <img id="bird" src="Orange_Bird.png" alt="Orange Bird">
+        <img id="bird" src="./Orange_Bird.png" alt="Orange Bird">
         <h1>Eugenio Cruz Ossa</h1>
         <p class="tagline">
             Co-founder & Lead Data Scientist at Teapot<br>
@@ -368,19 +441,19 @@
             EPFL, Switzerland
         </div>
 
-        <div class="interests">
-            <span class="tag">Online Algorithms</span>
-            <span class="tag">Data Science</span>
-            <span class="tag">Pricing</span>
-        </div>
-
         <div class="social-icons">
-            <a href="cv.pdf" title="CV" target="_blank">
-                <svg viewBox="0 0 384 512">
-                    <path
-                        d="M64 0C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zm192 0v128h128L256 0zM112 256h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-                </svg>
-            </a>
+            <div class="cv-dropdown" id="cvDropdown">
+                <span title="CV">
+                    <svg viewBox="0 0 384 512">
+                        <path
+                            d="M64 0C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zm192 0v128h128L256 0zM112 256h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                    </svg>
+                </span>
+                <div class="cv-dropdown-content">
+                    <a href="mainENG.pdf" target="_blank">English</a>
+                    <a href="mainESP.pdf" target="_blank">Español</a>
+                </div>
+            </div>
             <a href="https://github.com/EugenioCruz" title="GitHub" target="_blank" rel="noopener">
                 <svg viewBox="0 0 496 512">
                     <path
@@ -553,7 +626,7 @@
         img.onerror = (e) => {
             console.error('Failed to load bird image:', e);
         };
-        img.src = 'Orange_small_Bird.png';
+        img.src = './Orange_small_Bird.png';
 
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -688,6 +761,20 @@
         bird.addEventListener('animationend', () => bird.classList.remove('jumping'));
         bird.addEventListener('click', spawnOrbit);
         bird.addEventListener('touchstart', spawnOrbit, { passive: false });
+
+        // CV Dropdown toggle
+        const cvDropdown = document.getElementById('cvDropdown');
+        cvDropdown.querySelector('span').addEventListener('click', (e) => {
+            e.stopPropagation();
+            cvDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!cvDropdown.contains(e.target)) {
+                cvDropdown.classList.remove('active');
+            }
+        });
     </script>
     <script src="theme.js"></script>
     <script src="i18n.js"></script>
