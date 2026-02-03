@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eugenio Cruz">
+    <title>Blog - Eugenio Cruz</title>
+    <link rel="icon" href="Orange_Bird.png" type="image/png">
+    <style>
+        :root {
+            --color-bg: #1a1a1a;
+            --color-text: #fff8f0;
+            --color-text-muted: #c4a77d;
+            --color-accent: #ff6b35;
+            --color-accent-light: #ffa366;
+            --color-hover: #ffcc99;
+            --font-family: Arial, sans-serif;
+            --max-width: 750px;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: var(--color-text);
+        }
+
+        body {
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-lg);
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-lg);
+            transition: color 0.2s;
+        }
+
+        .back:hover {
+            color: var(--color-hover);
+        }
+
+        .back svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .subtitle {
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-lg);
+            font-size: 1rem;
+        }
+
+        .post {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space-lg) 0;
+            transition: transform 0.2s;
+        }
+
+        .post:first-of-type {
+            padding-top: 0;
+        }
+
+        .post:hover {
+            transform: translateX(5px);
+        }
+
+        .post-date {
+            color: var(--color-accent);
+            font-size: 0.85rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .post-title {
+            font-size: 1.8rem;
+            margin-bottom: var(--space-sm);
+            color: var(--color-text);
+        }
+
+        .post-title a {
+            color: var(--color-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .post-title a:hover {
+            color: var(--color-accent);
+        }
+
+        .post-excerpt {
+            line-height: 1.7;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-md);
+        }
+
+        .post-tags {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid var(--color-accent);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--color-accent-light);
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: var(--space-lg);
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+
+        .placeholder {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .placeholder-text {
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+        }
+
+        .lang-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-family: var(--font-family);
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        #theme-toggle {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            font-family: var(--font-family);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #theme-toggle:hover {
+            background: var(--color-accent);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .post-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-selector">
+        <button id="theme-toggle" title="Cambiar tema">🌙</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+
+    <a href="index.html" class="back">
+        <svg viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        Back
+    </a>
+
+    <h1>Thoughts & Writing</h1>
+    <p class="subtitle">Ideas, reflections, and occasional deep dives</p>
+
+    <article class="post">
+        <div class="post-date">Febrero 2026</div>
+        <h2 class="post-title"><a href="posts/el-punto.html">El Punto</a></h2>
+        <p class="post-excerpt">
+            Una historia sobre encontrar tu camino y darte cuenta de que una línea es solo un punto en movimiento. A veces nos obsesionamos tanto con convertirnos en algo que no vemos que el simple acto de seguir adelante ya nos está transformando...
+        </p>
+    </article>
+
+    <!-- Example post structure - duplicate when you add more posts -->
+    <!--
+    <article class="post">
+        <div class="post-date">February 3, 2026</div>
+        <h2 class="post-title"><a href="posts/your-post.html">Your Post Title</a></h2>
+        <p class="post-excerpt">
+            A brief excerpt or summary of your post that gives readers an idea of what it's about...
+        </p>
+        <div class="post-tags">
+            <span class="tag">algorithms</span>
+            <span class="tag">research</span>
+        </div>
+    </article>
+    -->
+    <script src="theme.js"></script>
+    <script src="i18n.js"></script>
+</body>
+</html>

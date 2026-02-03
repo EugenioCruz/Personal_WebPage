@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eugenio Cruz">
+    <title>El Punto - Eugenio Cruz</title>
+    <link rel="icon" href="../Orange_Bird.png" type="image/png">
+    <style>
+        :root {
+            --color-bg: #1a1a1a;
+            --color-text: #fff8f0;
+            --color-text-muted: #c4a77d;
+            --color-accent: #ff6b35;
+            --color-accent-light: #ffa366;
+            --color-hover: #ffcc99;
+            --font-family: Arial, sans-serif;
+            --max-width: 650px;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: var(--color-text);
+        }
+
+        body {
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-lg);
+            line-height: 1.8;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-lg);
+            transition: color 0.2s;
+        }
+
+        .back:hover {
+            color: var(--color-hover);
+        }
+
+        .back svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+            color: var(--color-accent);
+        }
+
+        .date {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .post-content {
+            margin-top: var(--space-lg);
+        }
+
+        .post-content p {
+            margin-bottom: var(--space-md);
+            font-size: 1.05rem;
+        }
+
+        .drawing {
+            margin: var(--space-lg) 0;
+            text-align: center;
+            font-size: 2.5rem;
+            padding: var(--space-lg);
+            background: rgba(255, 107, 53, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .drawing-caption {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+            margin-top: var(--space-sm);
+        }
+
+        .highlight-box {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 3px solid var(--color-accent);
+            padding: var(--space-md);
+            margin: var(--space-lg) 0;
+            border-radius: 4px;
+        }
+
+        .waves {
+            display: inline-block;
+            font-size: 3rem;
+            letter-spacing: -5px;
+        }
+
+        .zigzag {
+            display: inline-block;
+            font-size: 3rem;
+        }
+
+        .dots-path {
+            font-size: 2rem;
+            letter-spacing: 8px;
+            color: var(--color-accent);
+        }
+
+        .lang-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-family: var(--font-family);
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        #theme-toggle {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            font-family: var(--font-family);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #theme-toggle:hover {
+            background: var(--color-accent);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-selector">
+        <button id="theme-toggle" title="Cambiar tema">🌙</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+
+    <a href="../blog.html" class="back">
+        <svg viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        Volver
+    </a>
+
+    <h1>El Punto</h1>
+    <p class="date">Febrero 2026</p>
+
+    <div class="post-content">
+        <p>
+            Érase una vez un punto.
+        </p>
+
+        <div class="drawing">
+            <div style="font-size: 4rem;">•</div>
+        </div>
+
+        <p>
+            El punto sentía que le faltaba algo. Veía a sus amigas líneas y soñaba poder ser como ellas.
+        </p>
+
+        <div class="drawing">
+            <svg width="300" height="150" style="margin: 0 auto; display: block;">
+                <line x1="50" y1="75" x2="250" y2="75" stroke="var(--color-accent)" stroke-width="2"/>
+                <line x1="50" y1="100" x2="250" y2="50" stroke="var(--color-accent)" stroke-width="2"/>
+                <circle cx="150" cy="125" r="8" fill="var(--color-accent)"/>
+            </svg>
+        </div>
+
+        <p>
+            No es que no quisiera ser un punto. Le encantaba poner fin a las frases, insinuarse con puntos suspensivos... Era muy directo! Y ayudaba a hacer preguntas, ¿¿??
+        </p>
+
+        <div class="highlight-box">
+            <p style="margin: 0;">
+                Pero se sentía vacío por dentro. <strong>Y quería ser una línea como las demás.</strong>
+            </p>
+        </div>
+
+        <div class="drawing">
+            <svg width="200" height="200" style="margin: 0 auto; display: block;">
+                <circle cx="100" cy="100" r="80" fill="none" stroke="var(--color-accent)" stroke-width="3"/>
+                <circle cx="100" cy="100" r="8" fill="var(--color-accent)"/>
+            </svg>
+        </div>
+
+        <p>
+            Entonces, se puso a buscar cómo conseguirlo... Y caminó y caminó por mucho tiempo...
+        </p>
+
+        <div class="drawing">
+            <div class="dots-path">• • • • • • • • • • • •</div>
+        </div>
+
+        <p>
+            Subió montañas...
+        </p>
+
+        <div class="drawing">
+            <svg width="300" height="120" style="margin: 0 auto; display: block;">
+                <polyline points="20,100 80,40 140,80 200,20 260,90"
+                          fill="none" stroke="var(--color-accent)" stroke-width="2"
+                          stroke-dasharray="3,3"/>
+            </svg>
+        </div>
+
+        <p>
+            Buceó en el mar...
+        </p>
+
+        <div class="drawing">
+            <svg width="300" height="120" style="margin: 0 auto; display: block;">
+                <path d="M 20 60 Q 50 40, 80 60 T 140 60 T 200 60 T 260 60"
+                      fill="none" stroke="var(--color-accent)" stroke-width="2"
+                      stroke-dasharray="3,3"/>
+            </svg>
+        </div>
+
+        <p>
+            Voló por el cielo...
+        </p>
+
+        <div class="drawing">
+            <svg width="300" height="120" style="margin: 0 auto; display: block;">
+                <path d="M 20 60 Q 80 20, 140 60 Q 200 100, 260 60"
+                      fill="none" stroke="var(--color-accent)" stroke-width="2"
+                      stroke-dasharray="3,3"/>
+            </svg>
+        </div>
+
+        <p>
+            Pero no encontró nada y se sentía perdido...
+        </p>
+
+        <div class="drawing">
+            <svg width="300" height="150" style="margin: 0 auto; display: block;">
+                <circle cx="150" cy="75" r="60" fill="none" stroke="var(--color-accent)"
+                        stroke-width="2" stroke-dasharray="3,3" opacity="0.3"/>
+                <circle cx="150" cy="75" r="8" fill="var(--color-accent)"/>
+            </svg>
+        </div>
+
+        <p>
+            Estaba tan desesperado por ser una línea, que no se paró a mirar atrás, para contemplar todo lo que hizo en este tiempo.
+        </p>
+
+        <div class="drawing">
+            <svg width="300" height="200" style="margin: 0 auto; display: block;">
+                <!-- Zigzag path -->
+                <polyline points="30,180 60,140 90,160 120,100 150,130 180,70 210,110 240,50 270,90"
+                          fill="none" stroke="var(--color-accent)" stroke-width="3"/>
+                <!-- Wavy continuation -->
+                <path d="M 270 90 Q 290 70, 300 90"
+                      fill="none" stroke="var(--color-accent)" stroke-width="3"
+                      stroke-dasharray="5,5"/>
+            </svg>
+        </div>
+
+        <div class="highlight-box">
+            <p style="font-size: 1.2rem; margin: 0; text-align: center;">
+                <strong>Cuando lo hizo, por fin se dio cuenta que una línea es solo un punto en movimiento 😊</strong>
+            </p>
+        </div>
+
+        <p style="margin-top: var(--space-lg); font-size: 1.3rem; text-align: center; color: var(--color-accent);">
+            <strong>Keep going...</strong>
+        </p>
+
+        <p style="margin-top: var(--space-lg); color: var(--color-text-muted); font-style: italic;">
+            A veces nos obsesionamos tanto con convertirnos en algo que no vemos que el simple acto de caminar,
+            de seguir adelante, ya nos está transformando en aquello que queremos ser. El punto descubrió que
+            no necesitaba convertirse en una línea, solo necesitaba seguir moviéndose.
+        </p>
+    </div>
+
+    <script src="../theme.js"></script>
+    <script src="../i18n.js"></script>
+</body>
+</html>

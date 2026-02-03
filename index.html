@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eugenio Cruz">
+    <title>Eugenio Cruz</title>
+    <meta name="description" content="Eugenio Cruz - Lead Data Scientist at Teapot | Visiting Researcher at EPFL">
+    <link rel="icon" href="Orange_Bird.png" type="image/png">
+    <style>
+        :root {
+            --color-bg: #1a1a1a;
+            --color-text: #fff8f0;
+            --color-text-muted: #c4a77d;
+            --color-accent: #ff6b35;
+            --color-accent-light: #ffa366;
+            --color-hover: #ffcc99;
+            --font-family: Arial, sans-serif;
+            --max-width: 600px;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 2rem;
+            --icon-size: 42px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: var(--color-text);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-light);
+        }
+
+        a {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            min-height: 100svh;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-md);
+        }
+
+        .landing {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        #bird {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            image-rendering: pixelated;
+            transition: transform 0.3s ease;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #bird:hover {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        @keyframes jump {
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        #bird.jumping {
+            animation: jump 0.5s ease-in-out;
+        }
+
+        #birdCanvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .landing h1 {
+            margin-top: var(--space-md);
+            margin-bottom: 0;
+            font-size: 2rem;
+            color: var(--color-text);
+        }
+
+        .tagline {
+            color: var(--color-text-muted);
+            font-size: 1rem;
+            margin-top: var(--space-sm);
+            max-width: 350px;
+            line-height: 1.5;
+        }
+
+        .bio-link {
+            display: inline-block;
+            margin-top: var(--space-sm);
+            color: var(--color-accent);
+            font-size: 0.9rem;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s;
+        }
+
+        .bio-link:hover {
+            color: var(--color-hover);
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: var(--space-md);
+            color: var(--color-accent);
+            font-size: 0.9rem;
+        }
+
+        .location svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--color-accent);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .social-icons svg {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            fill: var(--color-text);
+            transition: fill 0.2s ease, transform 0.2s ease;
+        }
+
+        .social-icons a:hover svg {
+            fill: var(--color-accent);
+            transform: translateY(-3px);
+        }
+
+        .quick-links {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: var(--space-lg);
+        }
+
+        .quick-link {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .quick-link:hover {
+            background: var(--color-accent);
+            color: var(--color-bg);
+            transform: translateY(-2px);
+        }
+
+        .lang-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-family: var(--font-family);
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        #theme-toggle {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            font-family: var(--font-family);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #theme-toggle:hover {
+            background: var(--color-accent);
+            transform: scale(1.1);
+        }
+
+        .interests {
+            margin-top: var(--space-lg);
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid var(--color-accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--color-accent-light);
+        }
+
+        /* Timeline section */
+        #stuff {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 600px;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: var(--space-lg) var(--space-lg) 6rem;
+        }
+
+        #stuff h1 {
+            font-size: 1.8rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        #stuff h2 {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-sm);
+        }
+
+        .tl {
+            list-style: none;
+        }
+
+        .tl li {
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--space-md);
+        }
+
+        .tl li > :first-child {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .tl li a {
+            color: var(--color-text);
+            transition: color 0.2s ease;
+        }
+
+        .tl li a:hover {
+            color: var(--color-accent);
+        }
+
+        .date {
+            font-size: small;
+            font-weight: lighter;
+            color: var(--color-text-muted);
+            white-space: nowrap;
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: var(--space-md);
+            font-size: small;
+            color: var(--color-text-muted);
+            background: linear-gradient(transparent, var(--color-bg));
+        }
+
+        .emails {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: var(--space-sm);
+        }
+
+        .emails a {
+            color: var(--color-accent);
+            transition: color 0.2s ease;
+            font-size: 0.85rem;
+        }
+
+        .emails a:hover {
+            color: var(--color-hover);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lang-selector">
+        <button id="theme-toggle" title="Cambiar tema">🌙</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+
+    <main class="landing">
+        <img id="bird" src="Orange_Bird.png" alt="Orange Bird">
+        <h1>Eugenio Cruz Ossa</h1>
+        <p class="tagline">
+            Co-founder & Lead Data Scientist at Teapot<br>
+            MSc in Engineering Sciences from PUC Chile<br>
+            Visiting Researcher at EPFL
+        </p>
+        <a href="bio.html" class="bio-link">about me</a>
+
+        <div class="location">
+            <svg viewBox="0 0 384 512">
+                <path
+                    d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+            </svg>
+            EPFL, Switzerland
+        </div>
+
+        <div class="interests">
+            <span class="tag">Online Algorithms</span>
+            <span class="tag">Data Science</span>
+            <span class="tag">Pricing</span>
+        </div>
+
+        <div class="social-icons">
+            <a href="cv.pdf" title="CV" target="_blank">
+                <svg viewBox="0 0 384 512">
+                    <path
+                        d="M64 0C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zm192 0v128h128L256 0zM112 256h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h160c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                </svg>
+            </a>
+            <a href="https://github.com/EugenioCruz" title="GitHub" target="_blank" rel="noopener">
+                <svg viewBox="0 0 496 512">
+                    <path
+                        d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/eugenio-cruz-ossa-28a6921b7/" title="LinkedIn" target="_blank"
+                rel="noopener">
+                <svg viewBox="0 0 448 512">
+                    <path
+                        d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/eug_cruz/" title="Instagram" target="_blank" rel="noopener">
+                <svg viewBox="0 0 448 512">
+                    <path
+                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                </svg>
+            </a>
+            <a href="https://open.spotify.com/user/eugenio_cruz?si=bc484ce0f6f04fb2" title="Spotify" target="_blank"
+                rel="noopener">
+                <svg viewBox="0 0 496 512">
+                    <path
+                        d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-4.2 0-6.8-1.3-10.7-3.6-62.4-37.6-135-39.2-206.7-24.5-3.9 1-9 2.6-11.9 2.6-9.7 0-15.8-7.7-15.8-15.8 0-10.3 6.1-15.2 13.6-16.8 81.9-18.1 165.6-16.5 237 26.2 6.1 3.9 9.7 7.4 9.7 16.5s-7.1 15.4-15.2 15.4zm26.9-65.6c-5.2 0-8.7-2.3-12.3-4.2-62.5-37-155.7-51.9-238.6-29.4-4.8 1.3-7.4 2.6-11.9 2.6-10.7 0-19.4-8.7-19.4-19.4s5.2-17.8 15.5-20.7c27.8-7.8 56.2-13.6 97.8-13.6 64.9 0 127.6 16.1 177 45.5 8.1 4.8 11.3 11 11.3 19.7-.1 10.8-8.5 19.5-19.4 19.5zm31-76.2c-5.2 0-8.4-1.3-12.9-3.9-71.2-42.5-198.5-52.7-280.9-29.7-3.6 1-8.1 2.6-12.9 2.6-13.2 0-23.3-10.3-23.3-23.6 0-13.6 8.4-21.3 17.4-23.9 35.2-10.3 74.6-15.2 117.5-15.2 73 0 149.5 15.2 205.4 47.8 7.8 4.5 12.9 10.7 12.9 22.6 0 13.6-11 23.3-23.2 23.3z" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="quick-links">
+            <a href="now.html" class="quick-link">What I'm doing now</a>
+            <a href="photography.html" class="quick-link">Photography</a>
+            <a href="blog.html" class="quick-link">Blog</a>
+        </div>
+    </main>
+
+    <section id="stuff">
+        <h1>What I've been up to</h1>
+
+        <h2>2026</h2>
+        <ul class="tl">
+            <li>
+                <div>
+                    <a href="https://www.epfl.ch/en/" target="_blank" rel="noopener">Research at EPFL</a>: online algorithms for matching<br>
+                    <span style="font-size: 0.9em; color: var(--color-text-muted);">Advisor: <a href="https://sites.google.com/view/andres-cristi" target="_blank" rel="noopener">Andrés Cristi</a></span>
+                </div>
+                <span class="date">ongoing</span>
+            </li>
+        </ul>
+
+        <h2>2025</h2>
+        <ul class="tl">
+            <li>
+                <div>
+                    <a href="https://www.uc.cl/en" target="_blank" rel="noopener">Completed MSc in Engineering Sciences at PUC Chile</a><br>
+                    <span style="font-size: 0.9em; color: var(--color-text-muted);">Diploma in Industrial Engineering and Systems | Advisor: <a href="https://sites.google.com/view/vverdugo/home" target="_blank" rel="noopener">Víctor Verdugo</a></span>
+                </div>
+                <span class="date">Dec</span>
+            </li>
+            <li>
+                <div>Graduated from Mathematical & Computational Engineering<br>
+                    <span style="font-size: 0.9em; color: var(--color-text-muted);">Summa cum laude | Best student of the specialty</span>
+                </div>
+                <span class="date">Dec</span>
+            </li>
+            <li>
+                <div>Thesis: "Competition Versus Complexity in Multiple-Selection Prophet Inequalities"</div>
+                <span class="date">Nov</span>
+            </li>
+            <li>
+                <div>
+                    <a href="https://teapot.cl" target="_blank" rel="noopener">Co-founder & Lead Data Scientist at Teapot</a><br>
+                    <span style="font-size: 0.9em; color: var(--color-text-muted);">Building data-driven solutions for education, optimizing and digitalizing learning through AI</span>
+                </div>
+                <span class="date">ongoing</span>
+            </li>
+        </ul>
+
+        <h2>2024</h2>
+        <ul class="tl">
+            <li>
+                <div>Started master's research on online algorithms & pricing</div>
+                <span class="date">Mar</span>
+            </li>
+        </ul>
+
+        <footer>
+            <p>say hi</p>
+            <div class="emails">
+                <a href="mailto:eugenio.cruzossa@epfl.ch">eugenio.cruzossa@epfl.ch</a>
+                <a href="mailto:ecruz3@uc.cl">ecruz3@uc.cl</a>
+                <a href="mailto:eugenio.cruz.ossa@gmail.com">eugenio.cruz.ossa@gmail.com</a>
+            </div>
+        </footer>
+    </section>
+
+    <canvas id="birdCanvas"></canvas>
+
+    <script>
+        const bird = document.getElementById('bird');
+        const canvas = document.getElementById('birdCanvas');
+        const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false });
+
+        // Shaders
+        const vs = `#version 300 es
+        in vec2 aV; in vec3 aI; in float aA; uniform vec2 uR; out vec2 vU; out float vA;
+        void main() { vU = aV*.5+.5; vA = aA; vec2 p = aI.xy + aV*aI.z*.5; gl_Position = vec4((p/uR)*2.-1., 0, 1); gl_Position.y *= -1.; }`;
+        const fs = `#version 300 es
+        precision mediump float; in vec2 vU; in float vA; uniform sampler2D uT; out vec4 o;
+        void main() { vec4 c = texture(uT, vU); o = vec4(c.rgb, c.a * vA); }`;
+
+        const compile = (t, s) => { const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh); return sh; };
+        const prog = gl.createProgram();
+        gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+        gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+        gl.linkProgram(prog);
+        gl.useProgram(prog);
+
+        const uRes = gl.getUniformLocation(prog, 'uR');
+        const aV = gl.getAttribLocation(prog, 'aV');
+        const aI = gl.getAttribLocation(prog, 'aI');
+        const aA = gl.getAttribLocation(prog, 'aA');
+
+        // Buffers
+        const instData = new Float32Array(9000), alphaData = new Float32Array(3000);
+        const quadBuf = gl.createBuffer(), instBuf = gl.createBuffer(), alphaBuf = gl.createBuffer();
+
+        gl.bindVertexArray(gl.createVertexArray());
+        gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(aV);
+        gl.vertexAttribPointer(aV, 2, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, instBuf);
+        gl.bufferData(gl.ARRAY_BUFFER, instData, gl.DYNAMIC_DRAW);
+        gl.enableVertexAttribArray(aI);
+        gl.vertexAttribPointer(aI, 3, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribDivisor(aI, 1);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, alphaBuf);
+        gl.bufferData(gl.ARRAY_BUFFER, alphaData, gl.DYNAMIC_DRAW);
+        gl.enableVertexAttribArray(aA);
+        gl.vertexAttribPointer(aA, 1, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribDivisor(aA, 1);
+
+        // Texture - load bird_small.png
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+
+        // Set texture parameters first
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+        // Set a default 1x1 white pixel while loading
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 255, 255, 255]));
+
+        const img = new Image();
+        img.onload = () => {
+            console.log('Image loaded, dimensions:', img.width, img.height);
+            gl.bindTexture(gl.TEXTURE_2D, tex);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.generateMipmap(gl.TEXTURE_2D);
+            console.log('Bird texture loaded successfully', img.width, img.height);
+        };
+        img.onerror = (e) => {
+            console.error('Failed to load bird image:', e);
+        };
+        img.src = 'Orange_small_Bird.png';
+
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+
+        const resize = () => { canvas.width = innerWidth; canvas.height = innerHeight; gl.viewport(0, 0, canvas.width, canvas.height); };
+        resize();
+        addEventListener('resize', resize);
+
+        // Physics state
+        const MAX_BODIES = 2000, MAX_PARTICLES = 500;
+        const bodyX = new Float32Array(MAX_BODIES), bodyY = new Float32Array(MAX_BODIES);
+        const bodyVX = new Float32Array(MAX_BODIES), bodyVY = new Float32Array(MAX_BODIES);
+        const bodySize = new Float32Array(MAX_BODIES), bodySpawn = new Float32Array(MAX_BODIES);
+        const bodyDead = new Uint8Array(MAX_BODIES);
+        const partX = new Float32Array(MAX_PARTICLES), partY = new Float32Array(MAX_PARTICLES);
+        const partVX = new Float32Array(MAX_PARTICLES), partVY = new Float32Array(MAX_PARTICLES);
+        const partLife = new Float32Array(MAX_PARTICLES), partSize = new Float32Array(MAX_PARTICLES);
+
+        let bodyCount = 0, partCount = 0, animating = false, sunX, sunY;
+
+        function spawnOrbit(e) {
+            e.preventDefault();
+            const rect = bird.getBoundingClientRect();
+            sunX = rect.left + rect.width / 2;
+            sunY = rect.top + rect.height / 2;
+
+            if (!animating) { bodyCount = 0; partCount = 0; }
+            const now = performance.now(), startIdx = bodyCount;
+
+            for (let i = 0; i < 150 && bodyCount < MAX_BODIES; i++) {
+                const idx = bodyCount++;
+                const edge = Math.random() * 4 | 0;
+                if (edge === 0) { bodyX[idx] = Math.random() * canvas.width; bodyY[idx] = -20; }
+                else if (edge === 1) { bodyX[idx] = canvas.width + 20; bodyY[idx] = Math.random() * canvas.height; }
+                else if (edge === 2) { bodyX[idx] = Math.random() * canvas.width; bodyY[idx] = canvas.height + 20; }
+                else { bodyX[idx] = -20; bodyY[idx] = Math.random() * canvas.height; }
+
+                const dx = sunX - bodyX[idx], dy = sunY - bodyY[idx];
+                const dist = Math.hypot(dx, dy);
+                const speed = Math.sqrt(4000000 / dist) * (1.5 + Math.random() * 0.5);
+                const inward = 0.6 + Math.random() * 0.3;
+                const tangent = Math.sqrt(1 - inward * inward) * (Math.random() > 0.5 ? 1 : -1);
+
+                bodyVX[idx] = (dx / dist * inward - dy / dist * tangent) * speed;
+                bodyVY[idx] = (dy / dist * inward + dx / dist * tangent) * speed;
+                bodySize[idx] = 28 * (0.7 + Math.random() * 0.6);
+                bodySpawn[idx] = now + (idx - startIdx) * 8;
+                bodyDead[idx] = 0;
+            }
+
+            if (animating) return;
+            animating = true;
+            let lastTime = now;
+
+            (function simulate() {
+                const now = performance.now();
+                const dt = Math.min((now - lastTime) / 1000, 0.033);
+                lastTime = now;
+
+                for (let i = 0; i < bodyCount; i++) {
+                    if (bodyDead[i] || now < bodySpawn[i]) continue;
+                    const dx = sunX - bodyX[i], dy = sunY - bodyY[i];
+                    const distSq = dx * dx + dy * dy + 400;
+                    const f = 4000000 / distSq / Math.sqrt(distSq);
+                    bodyVX[i] = (bodyVX[i] + f * dx * dt) * 0.9995;
+                    bodyVY[i] = (bodyVY[i] + f * dy * dt) * 0.9995;
+                    bodyX[i] += bodyVX[i] * dt;
+                    bodyY[i] += bodyVY[i] * dt;
+
+                    if (dx * dx + dy * dy < 2500) {
+                        bodyDead[i] = 1;
+                        for (let p = 0; p < 6 && partCount < MAX_PARTICLES; p++) {
+                            const pi = partCount++, angle = p / 6 * Math.PI * 2;
+                            partX[pi] = bodyX[i]; partY[pi] = bodyY[i];
+                            partVX[pi] = Math.cos(angle) * 200;
+                            partVY[pi] = Math.sin(angle) * 200;
+                            partLife[pi] = 0.4;
+                            partSize[pi] = bodySize[i] * 0.4;
+                        }
+                    }
+                }
+
+                for (let i = 0; i < partCount; i++) {
+                    if (partLife[i] <= 0) continue;
+                    partX[i] += partVX[i] * dt;
+                    partY[i] += partVY[i] * dt;
+                    partLife[i] -= dt;
+                }
+
+                let count = 0;
+                for (let i = 0; i < bodyCount; i++) {
+                    if (bodyDead[i] || now < bodySpawn[i]) continue;
+                    instData[count * 3] = bodyX[i];
+                    instData[count * 3 + 1] = bodyY[i];
+                    instData[count * 3 + 2] = bodySize[i];
+                    alphaData[count++] = 1;
+                }
+                for (let i = 0; i < partCount; i++) {
+                    if (partLife[i] <= 0) continue;
+                    instData[count * 3] = partX[i];
+                    instData[count * 3 + 1] = partY[i];
+                    instData[count * 3 + 2] = partSize[i];
+                    alphaData[count++] = partLife[i] * 2.5;
+                }
+
+                gl.clearColor(0, 0, 0, 0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.uniform2f(uRes, canvas.width, canvas.height);
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, tex);
+                gl.bindBuffer(gl.ARRAY_BUFFER, instBuf);
+                gl.bufferSubData(gl.ARRAY_BUFFER, 0, instData.subarray(0, count * 3));
+                gl.bindBuffer(gl.ARRAY_BUFFER, alphaBuf);
+                gl.bufferSubData(gl.ARRAY_BUFFER, 0, alphaData.subarray(0, count));
+                gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
+                requestAnimationFrame(simulate);
+            })();
+        }
+
+        const updateSun = () => {
+            if (!animating) return;
+            const rect = bird.getBoundingClientRect();
+            sunX = rect.left + rect.width / 2;
+            sunY = rect.top + rect.height / 2;
+        };
+        addEventListener('resize', updateSun);
+        addEventListener('scroll', updateSun);
+
+        bird.addEventListener('mouseenter', () => bird.classList.add('jumping'));
+        bird.addEventListener('animationend', () => bird.classList.remove('jumping'));
+        bird.addEventListener('click', spawnOrbit);
+        bird.addEventListener('touchstart', spawnOrbit, { passive: false });
+    </script>
+    <script src="theme.js"></script>
+    <script src="i18n.js"></script>
+</body>
+
+</html>

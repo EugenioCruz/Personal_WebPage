@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eugenio Cruz">
+    <title>Now - Eugenio Cruz</title>
+    <link rel="icon" href="Orange_Bird.png" type="image/png">
+    <style>
+        :root {
+            --color-bg: #1a1a1a;
+            --color-text: #fff8f0;
+            --color-text-muted: #c4a77d;
+            --color-accent: #ff6b35;
+            --color-accent-light: #ffa366;
+            --color-hover: #ffcc99;
+            --font-family: Arial, sans-serif;
+            --max-width: 650px;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: var(--color-text);
+        }
+
+        body {
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-lg);
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-lg);
+            transition: color 0.2s;
+        }
+
+        .back:hover {
+            color: var(--color-hover);
+        }
+
+        .back svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .date {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: var(--space-lg);
+            color: var(--color-text-muted);
+        }
+
+        .section {
+            margin-bottom: var(--space-lg);
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: var(--color-accent);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.3rem;
+        }
+
+        .section p {
+            line-height: 1.8;
+            margin-bottom: var(--space-md);
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section li {
+            padding: var(--space-sm) 0;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .section li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .stat-card {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            padding: var(--space-md);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-top: var(--space-sm);
+        }
+
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--color-hover);
+            text-decoration: underline;
+        }
+
+        .nownownow {
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        .lang-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-family: var(--font-family);
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-selector">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+
+    <a href="index.html" class="back">
+        <svg viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        Back
+    </a>
+
+    <h1>What I'm doing now</h1>
+    <p class="date">Last updated: February 2026</p>
+
+    <p class="intro">
+        This is a "now page" inspired by <a href="https://nownownow.com/about" target="_blank" rel="noopener">Derek Sivers</a>.
+        It's a snapshot of what I'm currently focused on in my life.
+    </p>
+
+    <div class="section">
+        <h2><span class="section-icon">🔬</span>Research & Work</h2>
+        <p>
+            Currently at EPFL in Lausanne, Switzerland, working on online algorithms for matching problems with
+            <a href="https://sites.google.com/view/andres-cristi" target="_blank" rel="noopener">Andrés Cristi</a>.
+            The work involves finding optimal strategies for dynamic matching scenarios where decisions must be made without
+            complete information about the future.
+        </p>
+        <p>
+            Simultaneously working remotely as co-founder and Lead Data Scientist at Teapot in Chile, where we're building
+            data-driven solutions for the education sector, optimizing and digitalizing learning through artificial intelligence.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="section-icon">📚</span>Learning & Reading</h2>
+        <ul>
+            <li><strong>Research:</strong> Currently reading topics related to <a href="https://dl.acm.org/doi/10.1145/3580507.3597794" target="_blank" rel="noopener">The Power of Greedy for Online Minimum Cost Matching on the Line</a></li>
+            <li><strong>Literature:</strong> Reading "El libro de arena" (The Book of Sand) by Jorge Luis Borges</li>
+            <li>Exploring advanced topics in online algorithms and stochastic optimization</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="section-icon">🎮</span>Currently Enjoying</h2>
+        <ul>
+            <li><strong>Watching:</strong> Dark (finally catching up on this series!)</li>
+            <li><strong>Playing:</strong> Hive (always!)</li>
+            <li><strong>Listening:</strong> Check my <a href="https://open.spotify.com/user/eugenio_cruz" target="_blank" rel="noopener">Spotify</a> for my current rotation</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2><span class="section-icon">⛰️</span>Adventures</h2>
+        <p>
+            Making the most of being in Switzerland by exploring the beautiful surroundings of Lausanne. Recently visited
+            Geneva, Gruyères, and Annecy (absolutely gorgeous!). Planning trips to Sweden and Paris soon. Also documenting
+            everything through photography.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2><span class="section-icon">📈</span>Stats</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Countries visited</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">~70%</div>
+                <div class="stat-label">of Netflix watched</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Hive games played</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number"><span id="age"></span></div>
+                <div class="stat-label">Years old</div>
+            </div>
+        </div>
+
+        <div style="margin-top: var(--space-lg); text-align: center; line-height: 2;">
+            <h3 style="font-size: 1.2rem; margin-bottom: var(--space-md); color: var(--color-accent);">Countries I've visited</h3>
+            <div style="font-size: 2rem;">
+                🇨🇱 🇦🇷 🇺🇸 🇪🇸 🇮🇹 🏴󠁧󠁢󠁳󠁣󠁴󠁿 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇭🇷 🇸🇮 🇨🇿 🇭🇺 🇫🇷 🇨🇭
+            </div>
+            <div style="font-size: 0.9rem; color: var(--color-text-muted); margin-top: var(--space-sm);">
+                Chile • Argentina • USA • Spain • Italy • Scotland • England<br>
+                Croatia • Slovenia • Czech Republic • Hungary • France • Switzerland
+            </div>
+        </div>
+    </div>
+
+    <div class="nownownow">
+        <p>This page is part of the <a href="https://nownownow.com" target="_blank" rel="noopener">nownownow.com</a> project.</p>
+    </div>
+
+    <script>
+        // Dynamic age calculation
+        const birthDate = new Date(2001, 4, 17); // May 17, 2001 (months are 0-indexed)
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        document.getElementById('age').textContent = age;
+    </script>
+    <script src="i18n.js"></script>
+</body>
+</html>
